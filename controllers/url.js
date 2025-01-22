@@ -16,6 +16,7 @@ async function handleGenerateShortUrl(req, res) {
     });
     return res.render("home", {
       id: shortId,
+      user: req.user,
     });
     // return res.status(201).json({ shortId: shortId });
   } catch (e) {
@@ -39,7 +40,18 @@ async function handleUrlAnalytics(req, res) {
   }
 }
 
+async function handleDeleteURl(req, res) {
+  const shortId = req.params.shortId;
+  try {
+    await URL.deleteOne({ shortId });
+    return res.status(200).json({ message: "Deleted successfully" });
+  } catch (e) {
+    return res.status(500).json({ error: "Internal server error" });
+  }
+}
+
 module.exports = {
   handleGenerateShortUrl,
   handleUrlAnalytics,
+  handleDeleteURl,
 };

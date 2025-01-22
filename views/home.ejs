@@ -25,6 +25,7 @@
       header h1 {
         margin: 0;
         font-size: 1.5rem;
+        color: white;
       }
 
       header button {
@@ -128,7 +129,7 @@
   </head>
   <body>
     <header>
-      <h1>Shorten Your URL</h1>
+      <h1>Hi, <%= locals.user.name %></h1>
       <form action="/logout" method="POST" style="margin: 0">
         <button type="submit">Logout</button>
       </form>
@@ -163,7 +164,11 @@
               <th>S.NO</th>
               <th>Short ID</th>
               <th>URL</th>
+              <th>Redirect URL</th>
               <th>Clicks</th>
+              <% if(locals.user.role === "ADMIN") { %>
+              <th>Action</th>
+              <% } %>
             </tr>
           </thead>
           <tbody>
@@ -176,7 +181,22 @@
                   ><%= url.redirectUrl %></a
                 >
               </td>
+              <td>
+                <a
+                  href="http://localhost:3000/redirect/<%= url.shortId %>"
+                  target="_blank"
+                  >http://localhost:3000/redirect/<%= url.shortId %></a
+                >
+              </td>
               <td><%= url.visitedHistory.length %></td>
+              <% if (locals.user.role === "ADMIN") {%>
+              <td>
+                <form action="/url/delete/<%= url.shortId %>" method="POST">
+                  <input type="hidden" name="_method" value="DELETE" />
+                  <button type="submit">Delete</button>
+                </form>
+              </td>
+              <% } %>
             </tr>
             <% }) %>
           </tbody>

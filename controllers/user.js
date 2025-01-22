@@ -7,6 +7,7 @@ async function handleUserSignUP(req, res) {
     name,
     email,
     password,
+    role: "NORMAL",
   });
   return res.redirect("/");
 }
@@ -21,6 +22,9 @@ async function handleUserLogin(req, res) {
   }
   const token = setUser(user);
   res.cookie("token", token);
+  // return res.json({
+  //   Token: token,
+  // });
   return res.redirect("/");
 }
 
